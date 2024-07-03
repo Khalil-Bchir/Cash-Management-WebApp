@@ -1,0 +1,102 @@
+// Prisma schema for Laundry Management Application
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  orders Order[]
+}
+
+model Client {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  phone     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  orders Order[]
+}
+
+model Product {
+  id        String   @id @default(uuid())
+  name      String
+  price     Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  orderProducts OrderProduct[]
+}
+
+model Order {
+  id          String    @id @default(uuid())
+  clientId    String
+  userId      String
+  paid        Boolean   @default(false)
+  paymentDate DateTime?
+  totalAmount Float
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Relationships
+  client        Client         @relation(fields: [clientId], references: [id])
+  user          User           @relation(fields: [userId], references: [id])
+  orderProducts OrderProduct[]
+  payments      Payment[]
+}
+
+model OrderProduct {
+  id        String   @id @default(uuid())
+  quantity  Int
+  orderId   String
+  productId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  order        Order         @relation(fields: [orderId], references: [id])
+  product      Product       @relation(fields: [productId], references: [id])
+  itemPayments ItemPayment[]
+
+  // Unique constraint
+  @@unique([orderId, productId])
+}
+
+model Payment {
+  id        String   @id @default(uuid())
+  amount    Float
+  orderId   String
+  paidAt    DateTime @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  order Order @relation(fields: [orderId], references: [id])
+}
+
+model ItemPayment {
+  id             String   @id @default(uuid())
+  orderProductId String
+  amount         Float
+  paidAt         DateTime @default(now())
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // Relationships
+  orderProduct OrderProduct @relation(fields: [orderProductId], references: [id])
+}
