@@ -37,10 +37,26 @@ export function CashierOverview(): JSX.Element {
     { id: 6, name: 'Produit F', price: 34.99 },
     { id: 7, name: 'Produit G', price: 39.99 },
     { id: 8, name: 'Produit H', price: 44.99 },
+    { id: 9, name: 'Produit I', price: 49.99 },
+    { id: 10, name: 'Produit J', price: 54.99 },
+    { id: 11, name: 'Produit K', price: 59.99 },
+    { id: 12, name: 'Produit L', price: 64.99 },
+    { id: 13, name: 'Produit M', price: 69.99 },
+    { id: 14, name: 'Produit N', price: 74.99 },
+    { id: 15, name: 'Produit O', price: 79.99 },
+    { id: 16, name: 'Produit P', price: 84.99 },
+    { id: 17, name: 'Produit Q', price: 89.99 },
+    { id: 18, name: 'Produit R', price: 94.99 },
+    { id: 19, name: 'Produit S', price: 99.99 },
+    { id: 20, name: 'Produit T', price: 104.99 },
+    { id: 21, name: 'Produit U', price: 109.99 },
+    { id: 22, name: 'Produit V', price: 114.99 },
+    { id: 23, name: 'Produit W', price: 119.99 },
+    { id: 24, name: 'Produit X', price: 124.99 },
   ]);
   const [cart, setCart] = useState<{ id: number; name: string; price: number }[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage] = useState(8);
+  const productsPerPage = 15;
   const handleAddToCart = (product: { id: number; name: string; price: number }) => {
     setCart([...cart, product]);
   };
@@ -74,7 +90,7 @@ export function CashierOverview(): JSX.Element {
   };
 
   return (
-    <div className="container mx-auto py-8">
+    <div className="container mx-auto py-4">
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
         <div className="rounded-lg border p-4">
           <h2 className="mb-4 text-xl font-bold">Produits</h2>
@@ -95,15 +111,11 @@ export function CashierOverview(): JSX.Element {
               </Card>
             ))}
           </div>
-          <div className="mt-6 flex justify-center">
+          <div className="mt-6 flex justify-end">
             <Pagination>
               <PaginationContent>
                 <PaginationItem>
-                  <PaginationPrevious
-                    href="#"
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    //disabled={currentPage === 1}
-                  />
+                  <PaginationPrevious href="#" onClick={() => handlePageChange(currentPage - 1)} />
                 </PaginationItem>
                 {Array.from(
                   { length: Math.ceil(products.length / productsPerPage) },
@@ -120,11 +132,7 @@ export function CashierOverview(): JSX.Element {
                   </PaginationItem>
                 ))}
                 <PaginationItem>
-                  <PaginationNext
-                    href="#"
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    //disabled={currentPage === Math.ceil(products.length / productsPerPage)}
-                  />
+                  <PaginationNext href="#" onClick={() => handlePageChange(currentPage + 1)} />
                 </PaginationItem>
               </PaginationContent>
             </Pagination>
@@ -164,7 +172,7 @@ export function CashierOverview(): JSX.Element {
           <div className="mb-4 flex items-center">
             <Input
               type="text"
-              placeholder="Search clients..."
+              placeholder="Rechercher des clients..."
               value={searchTerm}
               onChange={handleSearchChange}
               className="mr-2 rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -176,14 +184,14 @@ export function CashierOverview(): JSX.Element {
           <ul>
             {clients.map((client) => (
               <li key={client.id} className="mb-2">
-                <Button variant="outline" onClick={() => handleSelectClient(client)}>
+                <Button variant="secondary" onClick={() => handleSelectClient(client)}>
                   {client.name} - {client.phone}
                 </Button>
               </li>
             ))}
           </ul>
           <Separator className="my-4" />
-          <h2 className="mb-4 text-xl font-bold">Ajouter Client</h2>
+          <h2 className="mb-4 text-xl font-bold">Créer un client</h2>
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -195,36 +203,50 @@ export function CashierOverview(): JSX.Element {
             }}
           >
             <div className="mb-4">
-              <div>
-                <Label htmlFor="name">Nom</Label>
-                <Input type="text" id="name" name="name" placeholder="Entrer le nom du client" />
-              </div>
-              <div className="mb-4">
-                <Label htmlFor="phone">Téléphone</Label>
-                <Input
-                  type="text"
-                  id="phone"
-                  name="phone"
-                  placeholder="Entrer le numéro de téléphone"
-                />
-              </div>
+              <Label htmlFor="name">Nom</Label>
+              <Input
+                type="text"
+                id="name"
+                name="name"
+                className="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                required
+              />
             </div>
-            <Button type="submit">Ajouter Client</Button>
+            <div className="mb-4">
+              <Label htmlFor="phone">Téléphone</Label>
+              <Input
+                type="tel"
+                id="phone"
+                name="phone"
+                className="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                required
+              />
+            </div>
+            <Button type="submit">Créer</Button>
           </form>
           <Separator className="my-4" />
           <h2 className="mb-4 text-xl font-bold">Méthode de Paiement</h2>
           <RadioGroup value={paymentMethod} onValueChange={handlePaymentMethodChange}>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="drop-off" id="r1" />
-              <Label htmlFor="r1">Déposer</Label>
+            <div className="mb-2 flex items-center">
+              <RadioGroupItem value="drop-off" id="drop-off" />
+              <Label htmlFor="drop-off" className="ml-2">
+                À la livraison
+              </Label>
             </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="pickup" id="r2" />
-              <Label htmlFor="r2">Ramasser</Label>
+            <div className="mb-2 flex items-center">
+              <RadioGroupItem value="in-shop" id="in-shop" />
+              <Label htmlFor="in-shop" className="ml-2">
+                En boutique
+              </Label>
             </div>
           </RadioGroup>
           <Separator className="my-4" />
           {selectedClient && <Button size="lg">Passer la Commande</Button>}
+          {!selectedClient && (
+            <Button disabled size="lg">
+              Passer la Commande
+            </Button>
+          )}
         </div>
       </div>
     </div>

@@ -1,11 +1,11 @@
-import { CashierOverview } from "@/components/component/cashier-overview";
-import { Navbar } from "@/components/layout/NavBar";
+import { CashierOverview } from '@/components/component/cashier-overview';
+import { Navbar } from '@/components/layout/NavBar';
 
 export default function Home() {
   return (
-    <div className="">
+    <div>
       <Navbar />
-      <div className="">
+      <div>
         <CashierOverview />
       </div>
     </div>

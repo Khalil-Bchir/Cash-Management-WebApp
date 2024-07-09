@@ -12,11 +12,13 @@ export function Navbar() {
 
   return (
     <nav className="border">
-      <div className="mx-auto max-w-7xl ">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {' '}
+        {/* Adjusted padding */}
         <div className="relative flex h-16 items-center justify-between">
           {/* Left section */}
           <div className="flex items-center">
-            <div className="flex-shrink-0 flex items-center space-x-2">
+            <div className="flex flex-shrink-0 items-center space-x-2">
               <Star /> {/* Replace Star with your actual icon component */}
               <span className="text-xl font-bold uppercase text-gray-800">Superstar</span>
             </div>
