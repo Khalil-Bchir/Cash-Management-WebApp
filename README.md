@@ -1,81 +1,91 @@
-# Turborepo starter
+# Cash Management Web App
 
-This is an official starter Turborepo.
+## Overview
 
-## Using this example
+The Cash Management Web App is a comprehensive tool designed to streamline cash handling and order tracking for laundry stores. Built with modern web technologies, this application facilitates cashier management, order creation, payment tracking, and archive management.
 
-Run the following command:
+## Features
 
-```sh
-npx create-turbo@latest
-```
+- **Cashier Management:** Efficiently manage cash transactions and orders.
+- **Order Creation:** Create and manage laundry orders with customer details.
+- **Payment Tracking:** Track payments and manage invoices.
+- **Archive Management:** Archive paid and unpaid orders for reference.
 
-## What's inside?
+## Technologies Used
 
-This Turborepo includes the following packages/apps:
+- **Frontend:** Next.js
+- **Backend:** Fastify
+- **Database:** Prisma with PostgreSQL
 
-### Apps and Packages
+## Getting Started
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@saas-monorepo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@saas-monorepo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@saas-monorepo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+### Prerequisites
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+Ensure you have the following installed:
 
-### Utilities
+- Node.js (v14 or later)
+- pnpm (v6 or later)
+- PostgreSQL
 
-This Turborepo has some additional tools already setup for you:
+### Installation
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+1. **Clone the repository:**
 
-### Build
+   ```bash
+   git clone https://github.com/Khalil-Bchir/Cash-Management-WebApp.git
+   cd Cash-Management-WebApp
+   ```
 
-To build all apps and packages, run the following command:
+2. **Install dependencies:**
 
-```
-cd my-turborepo
-pnpm build
-```
+   ```bash
+   pnpm install
+   ```
 
-### Develop
+3. **Set up the database:**
 
-To develop all apps and packages, run the following command:
+   Ensure PostgreSQL is running and create a new database for the project. Update the `.env` file with your database connection details.
 
-```
-cd my-turborepo
+   ```env
+   DATABASE_URL="postgresql://username:password@localhost:5432/database_name"
+   ```
+
+4. **Run database migrations:**
+
+   ```bash
+   pnpm prisma migrate dev
+   ```
+
+### Running the Application
+
+To start the application in development mode:
+
+```bash
 pnpm dev
 ```
 
-### Remote Caching
+### Usage
 
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+1. **Manage Orders:**
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
+   Create, update, and delete laundry orders with customer details.
 
-```
-cd my-turborepo
-npx turbo login
-```
+2. **Track Payments:**
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+   Monitor payments and manage invoices for each order.
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+3. **Archive Management:**
 
-```
-npx turbo link
-```
+   Archive paid and unpaid orders for historical reference.
 
-## Useful Links
+## Contributing
 
-Learn more about the power of Turborepo:
+Contributions are welcome to enhance the Cash Management Web App! Feel free to submit ideas, suggestions, or bug reports through issues or pull requests.
 
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+For any questions or inquiries, please contact [Khalil Bchir](https://github.com/Khalil-Bchir).
