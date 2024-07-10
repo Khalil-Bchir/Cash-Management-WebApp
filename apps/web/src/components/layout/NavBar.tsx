@@ -20,17 +20,14 @@ export function Navbar() {
           <div className="flex items-center">
             <div className="flex flex-shrink-0 items-center space-x-2">
               <Star /> {/* Replace Star with your actual icon component */}
-              <span className="text-xl font-bold uppercase text-gray-800">Superstar</span>
+              <span className="text-xl font-bold uppercase">Superstar</span>
             </div>
           </div>
 
           {/* Right section */}
           <div className="hidden sm:ml-6 sm:block">
             <div className="flex space-x-4">
-              <a
-                href="/cashier"
-                className="hover:bg-secondary rounded-md px-3 py-2 text-sm font-medium"
-              >
+              <a href="/" className="hover:bg-secondary rounded-md px-3 py-2 text-sm font-medium">
                 Cashier
               </a>
               <a
