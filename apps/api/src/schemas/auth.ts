@@ -3,10 +3,10 @@ export const loginSchema = {
   body: {
     type: 'object',
     properties: {
-      email: { type: 'string', format: 'email', lowercase: true, trim: true },
+      username: { type: 'string', format: 'text', lowercase: true, trim: true },
       password: { type: 'string', format: 'password' },
     },
-    required: ['email', 'password'],
+    required: ['username', 'password'],
   },
   response: {
     200: {
@@ -17,7 +17,7 @@ export const loginSchema = {
         user: {
           type: 'object',
           properties: {
-            email: { type: 'string' },
+            username: { type: 'string' },
             id: { type: 'string' },
           },
         },
@@ -58,7 +58,7 @@ export const authCheckSchema = {
         user: {
           type: 'object',
           properties: {
-            email: { type: 'string' },
+            username: { type: 'string' },
             id: { type: 'string' },
           },
         },
@@ -89,10 +89,10 @@ export const registerSchema = {
   body: {
     type: 'object',
     properties: {
-      email: { type: 'string', format: 'email' },
+      username: { type: 'string', format: 'text' },
       password: { type: 'string', format: 'password' },
     },
-    required: ['email', 'password'],
+    required: ['username', 'password'],
   },
   response: {
     200: {

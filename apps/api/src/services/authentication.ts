@@ -1,7 +1,7 @@
+import { PrismaClient } from '@saas-monorepo/database';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-import { PrismaClient } from '@saas-monorepo/database';
 import {
   AuthCheckPayload,
   AuthCheckResult,
@@ -25,23 +25,24 @@ export class AuthenticationService {
     let user = null;
     try {
       user = await this.prisma.user.findUniqueOrThrow({
-        where: { email: payload.email.toLowerCase() },
+        where: { username: payload.username.toLowerCase() },
         select: {
-          email: true,
+          username: true,
           id: true,
           password: true,
         },
       });
     } catch (err) {
-      throw new Error("invalid credentials");
+      throw new Error('invalid credentials');
     }
     const isPasswordValid = await this.validatePassword(payload.password, user.password as string);
 
     if (!isPasswordValid) {
-      throw new Error("invalid credentials");    }
+      throw new Error('invalid credentials');
+    }
     const tokenPayload = {
       id: user.id,
-      email: user.email,
+      username: user.username,
     };
     const accessToken = jwt.sign(tokenPayload, process.env['ACCESS_TOKEN_SECRET'] as string, {
       expiresIn: process.env['ACCESS_TOKEN_TTL'],
@@ -54,21 +55,21 @@ export class AuthenticationService {
   async register(payload: RegisterPayload) {
     let user = null;
     user = await this.prisma.user.findUnique({
-      where: { email: payload.email.toLowerCase() },
+      where: { username: payload.username.toLowerCase() },
       select: {
-        email: true,
+        username: true,
         id: true,
         password: true,
       },
     });
     if (user) {
-      throw new Error("user already exist");
+      throw new Error('user already exist');
     }
 
     const hashedPassword = await this.hashPassword(payload.password);
     user = await this.prisma.user.create({
       data: {
-        email: payload.email,
+        username: payload.username,
         password: hashedPassword,
       },
     });
@@ -78,17 +79,17 @@ export class AuthenticationService {
   async authCheck(payload: AuthCheckPayload) {
     let user = null;
 
-    console.log(payload)
+    console.log(payload);
     try {
       user = await this.prisma.user.findUniqueOrThrow({
         where: { id: payload.id },
         select: {
-          email: true,
+          username: true,
           id: true,
         },
       });
     } catch (err) {
-      throw new Error("Not Found");
+      throw new Error('Not Found');
     }
     return user;
   }

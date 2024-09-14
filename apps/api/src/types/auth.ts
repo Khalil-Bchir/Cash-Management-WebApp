@@ -1,4 +1,4 @@
-import { Prisma, User } from '@vaw/database';
+import { Prisma, User } from '@saas-monorepo/database';
 
 export type LoginResult = {
   accessToken: string;
@@ -9,7 +9,7 @@ export type AuthCheckResult = {
   user: Partial<User>;
 };
 export type LoginPayload = {
-  email: string;
+  username: string;
   password: string;
 };
 
@@ -22,7 +22,7 @@ export type ForgotResult = {
   user: Partial<User>;
 };
 export type ForgotPayload = {
-  email: string;
+  username: string;
 };
 
 export type ResetPayload = {
@@ -33,7 +33,7 @@ export type ResetPayload = {
 export type RegisterPayload = {
   first_name: string;
   last_name: string;
-  email: string;
+  username: string;
   password: string;
 };
 

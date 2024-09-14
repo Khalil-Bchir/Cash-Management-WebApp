@@ -13,8 +13,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    setIsAuthenticated(!!token); // Convert token presence to boolean
+    const token = sessionStorage.getItem('access_token');
+    setIsAuthenticated(!!token);
   }, []);
 
   const setAuthenticated = (value: boolean) => {
@@ -22,7 +22,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   if (isAuthenticated === null) {
-    return <div>Loading...</div>; // Show a loading state while checking authentication
+    return (
+      <div className="loader-container">
+        <div className="loader"></div>
+      </div>
+    );
   }
 
   return (

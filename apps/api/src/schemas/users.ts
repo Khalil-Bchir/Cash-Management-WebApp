@@ -5,8 +5,8 @@ export const getLoggedUserDataSchema = {
       description: 'Successful response',
       type: 'object',
       properties: {
-            id: { type: 'string' },
-            email: { type: 'string' },
+        id: { type: 'string' },
+        text: { type: 'string' },
       },
     },
     '4xx': {

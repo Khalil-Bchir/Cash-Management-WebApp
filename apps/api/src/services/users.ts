@@ -15,6 +15,7 @@ export class UsersService {
         },
       });
     } catch (err: any) {
-      throw err
-  }}
+      throw err;
+    }
+  }
 }
