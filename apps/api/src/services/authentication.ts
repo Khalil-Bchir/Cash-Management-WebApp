@@ -30,6 +30,7 @@ export class AuthenticationService {
           username: true,
           id: true,
           password: true,
+          role: true,
         },
       });
     } catch (err) {
@@ -43,6 +44,7 @@ export class AuthenticationService {
     const tokenPayload = {
       id: user.id,
       username: user.username,
+      role: user.role,
     };
     const accessToken = jwt.sign(tokenPayload, process.env['ACCESS_TOKEN_SECRET'] as string, {
       expiresIn: process.env['ACCESS_TOKEN_TTL'],

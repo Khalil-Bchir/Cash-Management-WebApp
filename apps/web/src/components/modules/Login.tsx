@@ -4,16 +4,16 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useAuth } from '@/context/AuthContext';
 import { login, selectAuth } from '@/services/authSlice';
 import { useAppDispatch, useAppSelector } from '@/services/hooks';
 import { Star } from 'lucide-react';
-//import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export function LoginForm() {
   const router = useRouter(); // useRouter hook from Next.js for navigation
-  //const { setAuthenticated } = useAuth(); // useAuth hook to get setAuthenticated function
+  const { setAuthenticated } = useAuth(); // useAuth hook to get setAuthenticated function
 
   const dispatch = useAppDispatch();
   const { loading, error } = useAppSelector(selectAuth);
@@ -24,7 +24,7 @@ export function LoginForm() {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     dispatch(login({ username, password }));
-    //setAuthenticated(true);
+    setAuthenticated(true);
     router.push('/'); // Redirect to mailing page
   };
 

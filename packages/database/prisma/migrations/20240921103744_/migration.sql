@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Order" ADD COLUMN     "restToPay" DOUBLE PRECISION NOT NULL DEFAULT 0;

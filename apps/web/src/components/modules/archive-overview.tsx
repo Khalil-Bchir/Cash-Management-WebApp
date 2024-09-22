@@ -32,30 +32,26 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { commands as fakeHistory } from '@/data/fakeHistory';
-// Assuming your fake history data is imported like this
+import { commands } from '@/data/fakeHistory';
+import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
-import { Archive, CalendarDays, Pencil, Search } from 'lucide-react';
+import { Field } from 'formik';
+import { Archive, CalendarDays, Eye, Search } from 'lucide-react';
 import * as React from 'react';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { SelectSingleEventHandler } from 'react-day-picker';
 
-export function HistoryOverview() {
+export function ArchiveOverview() {
   const [searchTerm, setSearchTerm] = useState('');
   const [date, setDate] = React.useState<Date | undefined>(new Date());
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCommand, setSelectedCommand] = useState<any>(null);
-  const [commands, setCommands] = useState(fakeHistory); // Initialize commands state with fakeHistory
   const productsPerPage = 7; // Number of commands per page
 
-  useEffect(() => {
-    // Add any additional logic you might need on state change
-  }, [commands]);
-
   const filteredCommands = useMemo(() => {
-    let filtered = commands.filter((command) => command.archive === false); // Filter out archived commands
+    let filtered = commands.filter((command) => command.archive == true); // Filter out archived commands
 
     if (selectedDate) {
       filtered = filtered.filter((command) => command.date === selectedDate);
@@ -63,27 +59,27 @@ export function HistoryOverview() {
 
     if (searchTerm) {
       filtered = filtered.filter((command) => {
-        const clientName = command.clientName ? command.clientName.toLowerCase() : '';
-        const clientPhone = command.clientPhone ? command.clientPhone : '';
-        const includesSearchTerm =
+        const clientName = command.clientName?.toLowerCase() || '';
+        const clientPhone = command.clientPhone || '';
+        const productNames =
+          command.products?.map((product: any) => product.productName?.toLowerCase() || '') || [];
+        const id = String(command.id || ''); // Convert to string
+        const ticketNumber = String(command.ticketNumber || ''); // Convert to string
+
+        return (
           clientName.includes(searchTerm.toLowerCase()) ||
           clientPhone.includes(searchTerm) ||
-          command.products.some((product: any) =>
-            product.productName
-              ? product.productName.toLowerCase().includes(searchTerm.toLowerCase())
-              : false,
-          );
-        return includesSearchTerm;
+          productNames.some((productName) => productName.includes(searchTerm.toLowerCase())) ||
+          id.includes(searchTerm) ||
+          ticketNumber.includes(searchTerm)
+        );
       });
     }
 
     return filtered;
-  }, [searchTerm, selectedDate, commands]); // Add `commands` as a dependency
+  }, [searchTerm, selectedDate]);
 
-  const pageCount = useMemo(
-    () => Math.ceil(filteredCommands.length / productsPerPage),
-    [filteredCommands.length, productsPerPage],
-  );
+  const pageCount = Math.ceil(filteredCommands.length / productsPerPage);
 
   const paginatedCommands = useMemo(() => {
     const startIndex = (currentPage - 1) * productsPerPage;
@@ -94,6 +90,7 @@ export function HistoryOverview() {
     setCurrentPage(pageNumber);
   };
 
+  // Adjust the type of `handleDateSelect` to match the expected type
   const handleDateSelect: SelectSingleEventHandler = (day: Date | undefined) => {
     if (day) {
       setSelectedDate(format(day, 'yyyy-MM-dd', { locale: fr }));
@@ -156,7 +153,7 @@ export function HistoryOverview() {
                   <Sheet>
                     <SheetTrigger onClick={() => setSelectedCommand(command)}>
                       <Button size="icon" className="p-3">
-                        <Pencil />
+                        <Eye />
                       </Button>
                     </SheetTrigger>
                     <SheetContent className="w-[400px] p-6 sm:w-[540px]">
@@ -211,21 +208,6 @@ export function HistoryOverview() {
                       )}
                     </SheetContent>
                   </Sheet>
-                  <Button
-                    variant="destructive"
-                    size="icon"
-                    className="p-3"
-                    onClick={() => {
-                      const updatedCommands = commands.map((cmd) =>
-                        cmd.id === command.id ? { ...cmd, archive: true } : cmd,
-                      );
-                      // Update the state with new commands
-                      setCommands(updatedCommands); // Assuming you have a state to manage commands
-                      console.log('Updated commands:', updatedCommands); // Add this line to log the updated commands
-                    }}
-                  >
-                    <Archive />
-                  </Button>
                 </TableCell>
               </TableRow>
             ))}

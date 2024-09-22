@@ -1,0 +1,28 @@
+const fakeProducts = [
+  { id: 1, name: 'Produit A', price: 9.99 },
+  { id: 2, name: 'Produit B', price: 14.99 },
+  { id: 3, name: 'Produit C', price: 19.99 },
+  { id: 4, name: 'Produit D', price: 24.99 },
+  { id: 5, name: 'Produit E', price: 29.99 },
+  { id: 6, name: 'Produit F', price: 34.99 },
+  { id: 7, name: 'Produit G', price: 39.99 },
+  { id: 8, name: 'Produit H', price: 44.99 },
+  { id: 9, name: 'Produit I', price: 49.99 },
+  { id: 10, name: 'Produit J', price: 54.99 },
+  { id: 11, name: 'Produit K', price: 59.99 },
+  { id: 12, name: 'Produit L', price: 64.99 },
+  { id: 13, name: 'Produit M', price: 69.99 },
+  { id: 14, name: 'Produit N', price: 74.99 },
+  { id: 15, name: 'Produit O', price: 79.99 },
+  { id: 16, name: 'Produit P', price: 84.99 },
+  { id: 17, name: 'Produit Q', price: 89.99 },
+  { id: 18, name: 'Produit R', price: 94.99 },
+  { id: 19, name: 'Produit S', price: 99.99 },
+  { id: 20, name: 'Produit T', price: 104.99 },
+  { id: 21, name: 'Produit U', price: 109.99 },
+  { id: 22, name: 'Produit V', price: 114.99 },
+  { id: 23, name: 'Produit W', price: 119.99 },
+  { id: 24, name: 'Produit X', price: 124.99 },
+];
+
+export default fakeProducts;

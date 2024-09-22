@@ -1,5 +1,4 @@
-import { HistoryOverview } from '@/components/component/history-overview';
-import { Navbar } from '@/components/layout/NavBar';
+import { HistoryOverview } from '@/components/modules/history-overview';
 import ProtectedRoute from '@/views/private-route';
 
 export default function Home() {

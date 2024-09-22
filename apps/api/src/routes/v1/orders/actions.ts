@@ -22,26 +22,94 @@ const orderRoutes: FastifyPluginAsync = async (fastify, opts): Promise<void> => 
         reply.status(201).send({ message: 'Order created successfully' });
       } catch (error) {
         console.error('Error creating order:', error);
-        reply.status(500).send({ error: 'Failed to create order' });
+        throw error;
       }
     },
   );
 
   // Route to make a partial payment
-  fastify.post<{ Body: { orderProductId: string; paidQuantity: number } }>(
+  fastify.post<{ Body: { orderId: string; handedAmount: number } }>(
     '/pay',
     { schema: OrderSchema.PayOrder },
     async (request, reply) => {
       try {
-        const { orderProductId, paidQuantity } = request.body;
+        const { orderId, handedAmount } = request.body;
 
         // Process partial payment using the OrderService
-        const order = await orderService.makePartialPayment(orderProductId, paidQuantity);
+        await orderService.addPayment(orderId, handedAmount);
 
-        reply.status(200).send({ message: 'Payment processed successfully', order });
+        reply.status(200).send({ message: 'Payment processed successfully' });
       } catch (error) {
         console.error('Error processing payment:', error);
         throw error;
+      }
+    },
+  );
+
+  fastify.get<{ Params: { orderId: string } }>(
+    '/:orderId',
+    { schema: OrderSchema.GetOrderByID },
+    async (request, reply) => {
+      try {
+        const { orderId } = request.params;
+
+        // Fetch the order using the OrderService
+        const order = await orderService.getOrderbyId(orderId);
+
+        return reply.send(order);
+      } catch (error) {
+        console.error('Error fetching order:', error);
+        throw error;
+      }
+    },
+  );
+
+  // Route to fetch orders
+  fastify.get<{
+    Querystring: {
+      page: number;
+      limit: number;
+      date?: string;
+      restToPay?: number;
+      search?: string;
+    };
+  }>('/', { schema: OrderSchema.GetOrders }, async (request, reply) => {
+    try {
+      const { page, limit, date, restToPay, search } = request.query;
+
+      if (isNaN(page) || isNaN(limit) || page < 1 || limit < 1) {
+        throw new Error('Invalid page or limit');
+      }
+
+      // Fetch orders using the OrderService
+      const result = await orderService.getOrders(page, limit, {
+        date,
+        restToPay,
+        search,
+      });
+
+      return reply.send(result);
+    } catch (error) {
+      console.error('Error fetching orders:', error);
+      throw error;
+    }
+  });
+
+  // Route to mark an order as delivered
+  fastify.post<{ Params: { orderId: string } }>(
+    '/deliver/:orderId',
+    { schema: OrderSchema.DeliverOrder }, // Ensure you have this schema defined
+    async (request, reply) => {
+      try {
+        const { orderId } = request.params;
+
+        // Mark the order as delivered using the OrderService
+        await orderService.markAsDelivered(orderId);
+
+        reply.status(200).send({ message: 'Order marked as delivered' });
+      } catch (error) {
+        console.error('Error marking order as delivered:', error);
+        reply.status(500).send({ message: 'Failed to mark order as delivered' });
       }
     },
   );

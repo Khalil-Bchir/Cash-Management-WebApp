@@ -1,9 +1,12 @@
+import { Role } from '@saas-monorepo/database';
+import { t } from 'i18next';
+
 export const loginSchema = {
   tags: ['auth'],
   body: {
     type: 'object',
     properties: {
-      username: { type: 'string', format: 'text', lowercase: true, trim: true },
+      username: { type: 'string', lowercase: true, trim: true },
       password: { type: 'string', format: 'password' },
     },
     required: ['username', 'password'],
@@ -19,6 +22,7 @@ export const loginSchema = {
           properties: {
             username: { type: 'string' },
             id: { type: 'string' },
+            role: { type: 'string' },
           },
         },
       },

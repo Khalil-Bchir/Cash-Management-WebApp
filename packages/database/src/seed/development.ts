@@ -7,6 +7,14 @@ export default async function seedDev() {
     data: {
       password: bcrypt.hashSync('passer'),
       username: 'admin',
+      role: 'ADMIN',
+    },
+  });
+  await prisma.user.create({
+    data: {
+      password: bcrypt.hashSync('passer'),
+      username: 'user',
+      role: 'USER',
     },
   });
   await prisma.product.create({
@@ -29,7 +37,7 @@ export default async function seedDev() {
   });
   await prisma.client.create({
     data: {
-      name: 'Product 4',
+      name: 'client 1',
       phone: '12345678',
     },
   });
